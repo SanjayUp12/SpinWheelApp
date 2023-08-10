@@ -59,8 +59,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ElevatedButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SpinnerScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SpinnerScreen(
+                              spinnerItems: this.spinnerItems,
+                            )));
               },
               child: Text('Check Your Luck')),
         ],
