@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spin_wheel_app/screens/spinner_screen.dart';
+import 'package:spin_wheel_app/utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late List<String> spinnerItems = [];
 
-  String textFieldValue = '';
+  String? textFieldValue;
 
   @override
   Widget build(BuildContext context) {
@@ -21,62 +22,109 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             'Add items to spin wheels please',
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(fontSize: 20, fontFamily: 'Ubuntu'),
           ),
-          TextField(
-            controller: _textEditingController,
-            decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Item to display on spinner'),
-            onChanged: (value) {
-              textFieldValue = value;
-            },
+          SizedBox(
+            height: 10,
+            width: 10,
           ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                spinnerItems.add(textFieldValue);
-                _textEditingController.clear();
-              });
-            },
-            child: Text('Add item'),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _textEditingController,
+                  decoration: kTextFieldDecoration,
+                  onChanged: (value) {
+                    textFieldValue = value;
+                  },
+                ),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    if (textFieldValue != null) {
+                      spinnerItems.add(textFieldValue!);
+                      _textEditingController.clear();
+                    }
+                  });
+                },
+                child: Text('Add item'),
+                style: kButtonStyle(),
+              ),
+              SizedBox(width: 10),
+            ],
           ),
           Expanded(
             child: ListView.builder(
                 itemCount: spinnerItems.length,
                 itemBuilder: (context, index) {
-                  return GestureDetector(
-                    child: ListTile(
-                      title: Text('${index + 1}. ${spinnerItems[index]}'),
-                    ),
-                    onLongPress: () {
-                      setState(() {
-                        spinnerItems.removeAt(index);
-                      });
-                    },
+                  return ListTile(
+                    title: Text('${index + 1}. ${spinnerItems[index]}'),
+                    trailing: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            spinnerItems.removeAt(index);
+                          });
+                        },
+                        child: Icon(Icons.delete, color: Colors.red)),
                   );
                 }),
           ),
           ElevatedButton(
-              onPressed: () {
+            onPressed: () {
+              if (!checkSpinnerItemsLength(spinnerItems)) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertBoxWidget();
+                  },
+                );
+              } else {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SpinnerScreen(
-                              spinnerItems: this.spinnerItems,
-                            )));
-              },
-              child: Text('Check Your Luck')),
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SpinnerScreen(
+                      spinnerItems: this.spinnerItems,
+                    ),
+                  ),
+                );
+              }
+            },
+            child: Text(
+              'Check Your Luck',
+              style: TextStyle(fontFamily: 'Roboto'),
+            ),
+            style: kButtonStyle(),
+          ),
         ],
       ),
     ));
   }
 }
 
-// void checkSpinnerItemsLength( List<String> items)
-// {
-//   if(items.length<=2)
-//     {
-//       return AlertDialog()
-//     }
-// }
+class AlertBoxWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Alert'),
+      content: Text('You need at least 2 and at most 8 items in the list.'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          child: Text('OK'),
+        ),
+      ],
+    );
+  }
+}
+
+bool checkSpinnerItemsLength(List<String> items) {
+  if (items.length >= 2 && items.length < 8) {
+    return true;
+  } else {
+    return false;
+  }
+}

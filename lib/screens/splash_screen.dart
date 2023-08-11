@@ -20,18 +20,19 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.cyanAccent,
         body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Image(
-          image: AssetImage('assets/images/spinwheel.png'),
-        ),
-        Text(
-          'Spin Your Luck',
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-        ),
-      ],
-    ));
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image(
+              image: AssetImage('assets/images/spinwheel.png'),
+            ),
+            Text(
+              'Spin Your Luck',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ));
   }
 }
