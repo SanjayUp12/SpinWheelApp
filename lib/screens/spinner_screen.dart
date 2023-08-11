@@ -47,45 +47,7 @@ class _SpinnerScreenState extends State<SpinnerScreen> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Image(
-                            image:
-                                AssetImage('assets/images/spinwheelicon.png'),
-                          ),
-                          content: Text(
-                            'Thank You . You got.....  \' $result\'',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.blue),
-                          ),
-                          actions: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // Close the dialog
-                                  },
-                                  child: Text(
-                                    'Spin Again',
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                HomeScreen())); // Close the dialog
-                                  },
-                                  child: Text(
-                                    'Go to Home Screen',
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        );
+                        return AlertBoxWidget(result: result);
                       });
                 },
               ),
@@ -111,5 +73,56 @@ class _SpinnerScreenState extends State<SpinnerScreen> {
     selectedSubscription?.cancel();
     selected.close();
     super.dispose();
+  }
+}
+
+class AlertBoxWidget extends StatelessWidget {
+  const AlertBoxWidget({
+    super.key,
+    required this.result,
+  });
+
+  final String result;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Image(
+        image: AssetImage('assets/images/spinwheelicon.png'),
+      ),
+      content: Text(
+        'Thank You . You got.....  \' $result\'',
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.blue),
+      ),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text(
+                'Spin Again',
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(),
+                  ),
+                ); // Close the dialog
+              },
+              child: Text(
+                'Go to Home Screen',
+              ),
+            )
+          ],
+        ),
+      ],
+    );
   }
 }
