@@ -20,18 +20,21 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SafeArea(
       child: Column(
         children: [
+          SizedBox(height: 20),
           Text(
             'Add items to spin wheels please',
             style: TextStyle(fontSize: 20, fontFamily: 'Ubuntu'),
           ),
           SizedBox(
-            height: 10,
+            height: 20,
             width: 10,
           ),
           Row(
             children: [
               Expanded(
                 child: TextField(
+                  textCapitalization: TextCapitalization.words,
+                  keyboardAppearance: Brightness.light,
                   controller: _textEditingController,
                   decoration: kTextFieldDecoration,
                   onChanged: (value) {
@@ -46,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (textFieldValue != null) {
                       spinnerItems.add(textFieldValue!);
                       _textEditingController.clear();
+                      textFieldValue = null;
                     }
                   });
                 },
@@ -122,7 +126,7 @@ class AlertBoxWidget extends StatelessWidget {
 }
 
 bool checkSpinnerItemsLength(List<String> items) {
-  if (items.length >= 2 && items.length < 8) {
+  if (items.length >= 2 && items.length <= 8) {
     return true;
   } else {
     return false;

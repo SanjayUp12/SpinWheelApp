@@ -26,3 +26,6 @@ ButtonStyle kButtonStyle() {
     ),
   );
 }
+
+const kSpinnerItemTextStyle =
+    TextStyle(fontSize: 18, color: Colors.yellow, fontFamily: 'Ubuntu');
