@@ -3,12 +3,13 @@ import 'package:spin_wheel_app/screens/spinner_screen.dart';
 import 'package:spin_wheel_app/utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
 
   late List<String> spinnerItems = [];
 
@@ -20,12 +21,12 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SafeArea(
       child: Column(
         children: [
-          SizedBox(height: 20),
-          Text(
-            'Add items to spin wheels please',
+          const SizedBox(height: 20),
+          const Text(
+            'Add Items To Spin Wheel',
             style: TextStyle(fontSize: 20, fontFamily: 'Ubuntu'),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
             width: 10,
           ),
@@ -42,21 +43,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    if (textFieldValue != null) {
-                      spinnerItems.add(textFieldValue!);
-                      _textEditingController.clear();
-                      textFieldValue = null;
-                    }
-                  });
-                },
-                child: Text('Add item'),
-                style: kButtonStyle(),
-              ),
-              SizedBox(width: 10),
+                  onPressed: () {
+                    setState(() {
+                      if (textFieldValue != null) {
+                        spinnerItems.add(textFieldValue!);
+                        _textEditingController.clear();
+                        textFieldValue = null;
+                      }
+                    });
+                  },
+                  style: kButtonStyle(),
+                  child: const Text('Add item')),
+              const SizedBox(width: 10),
             ],
           ),
           Expanded(
@@ -71,36 +71,35 @@ class _HomeScreenState extends State<HomeScreen> {
                             spinnerItems.removeAt(index);
                           });
                         },
-                        child: Icon(Icons.delete, color: Colors.red)),
+                        child: const Icon(Icons.delete, color: Colors.red)),
                   );
                 }),
           ),
           ElevatedButton(
-            onPressed: () {
-              if (!checkSpinnerItemsLength(spinnerItems)) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertBoxWidget();
-                  },
-                );
-              } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SpinnerScreen(
-                      spinnerItems: this.spinnerItems,
+              onPressed: () {
+                if (!checkSpinnerItemsLength(spinnerItems)) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const AlertBoxWidget();
+                    },
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SpinnerScreen(
+                        spinnerItems: this.spinnerItems,
+                      ),
                     ),
-                  ),
-                );
-              }
-            },
-            child: Text(
-              'Check Your Luck',
-              style: TextStyle(fontFamily: 'Roboto'),
-            ),
-            style: kButtonStyle(),
-          ),
+                  );
+                }
+              },
+              style: kButtonStyle(),
+              child: const Text(
+                'Check Your Luck',
+                style: TextStyle(fontFamily: 'Roboto'),
+              )),
         ],
       ),
     ));
@@ -108,17 +107,19 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class AlertBoxWidget extends StatelessWidget {
+  const AlertBoxWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Alert'),
-      content: Text('You need at least 2 and at most 8 items in the list.'),
+      title: const Text('Alert'),
+      content:
+          const Text('You need at least 2 and at most 8 items in the list.'),
       actions: <Widget>[
         TextButton(
           onPressed: () {
             Navigator.of(context).pop(); // Close the dialog
           },
-          child: Text('OK'),
+          child: const Text('OK'),
         ),
       ],
     );
